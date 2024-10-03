@@ -19,7 +19,7 @@
         <nav>
             <div class="logo-container">
                 <img src="assets/img/logo_transparente.png" alt="Logo Olhar Fotográfico" class="logo">
-                <h1>Olhar Fotográfico</h1>
+                <h1>Capture</h1>
             </div>
             <ul>
                 <li><a href="#galeria">Galeria</a></li>
@@ -43,12 +43,21 @@
     <section id="galeria" class="galeria">
         <h2>Galeria de Fotos</h2>
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="assets/img/a-banner-with-a-photo-of-a-golden-retriever-playin-z-VRQaHhSC6-ghiscNIU4A-nDg0wUOxRa-2IdVQZFLd4g.jpeg" alt="Foto 1"></div>
-            <div class="gallery-item"><img src="assets/img/a-photo-of-a-rocky-mountainous-landscape-with-a-cl-jVz8FsAjQ36VqP7j9xfs8g-nDg0wUOxRa-2IdVQZFLd4g.jpeg" alt="Foto 2"></div>
-            <div class="gallery-item"><img src="assets/img/a-photo-of-a-serene-landscape-with-a-calm-lake-ref-JBjZKNG3TzypS5d-aEZDpg-DIJq6EX6TiOWYQwZVfijMA.jpeg" alt="Foto 3"></div>
-            <div class="gallery-item"><img src="assets/img/a-photography-banner-with-a-photo-of-a-scenic-land-7QoqDqA_ScWzyyp6myN7mA-DIJq6EX6TiOWYQwZVfijMA.jpeg" alt="Foto 4"></div>
+            <div class="gallery-item"><img src="assets/img/a-banner-with-a-photo-of-a-golden-retriever-playin-z-VRQaHhSC6-ghiscNIU4A-nDg0wUOxRa-2IdVQZFLd4g.jpeg" alt="Foto 1" class="gallery-img"></div>
+            <div class="gallery-item"><img src="assets/img/a-photo-of-a-rocky-mountainous-landscape-with-a-cl-jVz8FsAjQ36VqP7j9xfs8g-nDg0wUOxRa-2IdVQZFLd4g.jpeg" alt="Foto 2" class="gallery-img"></div>
+            <div class="gallery-item"><img src="assets/img/a-photo-of-a-serene-landscape-with-a-calm-lake-ref-JBjZKNG3TzypS5d-aEZDpg-DIJq6EX6TiOWYQwZVfijMA.jpeg" alt="Foto 3" class="gallery-img"></div>
+            <div class="gallery-item"><img src="assets/img/a-photography-banner-with-a-photo-of-a-scenic-land-7QoqDqA_ScWzyyp6myN7mA-DIJq6EX6TiOWYQwZVfijMA.jpeg" alt="Foto 4" class="gallery-img"></div>
         </div>
     </section>
+
+    <!-- Modal para exibir as imagens -->
+    <div id="modal" class="modal">
+        <span id="close-modal" class="close">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <a class="prev" id="prev-btn">&#10094;</a> <!-- Botão anterior -->
+        <a class="next" id="next-btn">&#10095;</a> <!-- Botão próximo -->
+    </div>
+
 
     <!-- Sobre o Fotógrafo -->
     <section id="biografia" class="biografia">
@@ -88,6 +97,7 @@
         </div>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 
 </html>

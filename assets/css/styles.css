@@ -64,12 +64,16 @@ nav ul {
 
 nav ul li {
     margin-left: 20px;
+    position: relative; /* Necessário para a pseudo-classe ::after */
 }
 
 nav ul li a {
     color: #fff;
     font-weight: 300;
     font-size: 1.1rem;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 5px; /* Espaçamento entre o texto e o traço */
     transition: color 0.3s;
 }
 
@@ -77,6 +81,21 @@ nav ul li a:hover {
     color: #ccc;
 }
 
+/* Traço pequeno sob cada link */
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 20%; /* Tamanho inicial do traço */
+    height: 1px;
+    background-color: #fff;
+    transition: width 0.3s ease; /* Animação de crescimento */
+}
+
+nav ul li a:hover::after {
+    width: 100%; /* Expande para 100% ao passar o mouse */
+}
 
 /* Seção Hero com background e overlay escuro */
 .hero {
@@ -279,5 +298,85 @@ footer .social-links a:hover {
 
     .logo {
         width: 40px; /* Logo ajustada para telas menores */
+    }
+}
+
+/* Modal (janela para exibir a imagem em tamanho grande) */
+.modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed; 
+    z-index: 100; /* Sobrepõe outros conteúdos */
+    padding-top: 60px; /* Espaço no topo da modal */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo escurecido */
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%; /* A largura da imagem dentro da modal */
+    max-width: 700px;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #ccc;
+}
+
+/* Botões de navegação */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Botão anterior */
+.prev {
+    left: 10px;
+}
+
+/* Botão próximo */
+.next {
+    right: 10px;
+}
+
+/* Estilo responsivo para a modal */
+@media only screen and (max-width: 768px) {
+    .modal-content {
+        width: 100%;
+    }
+
+    .prev, .next {
+        font-size: 20px;
+        padding: 10px;
     }
 }
