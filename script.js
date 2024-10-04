@@ -40,3 +40,15 @@ prevBtn.addEventListener('click', function () {
     currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length; // Vai para a imagem anterior
     modalImg.src = galleryImages[currentIndex].src;                                 // Atualiza a imagem na modal
 });
+
+// Seleciona o botão da seta e a galeria oculta
+const expandBtn = document.getElementById('expand-btn');
+const hiddenGallery = document.getElementById('hidden-gallery');
+
+// Função para mostrar a galeria oculta quando o botão da seta for clicado
+expandBtn.addEventListener('click', function() {
+    if (hiddenGallery.style.display === 'none' || hiddenGallery.style.display === '') {
+        hiddenGallery.style.display = 'block'; // Mostra as imagens ocultas
+        expandBtn.style.display = 'none'; // Oculta o botão da seta depois de expandir
+    }
+});
