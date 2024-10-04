@@ -44,6 +44,7 @@ prevBtn.addEventListener('click', function () {
 // Seleciona o botão da seta e a galeria oculta
 const expandBtn = document.getElementById('expand-btn');
 const hiddenGallery = document.getElementById('hidden-gallery');
+const closeGalleryBtn = document.getElementById('close-gallery');
 
 // Função para mostrar a galeria oculta quando o botão da seta for clicado
 expandBtn.addEventListener('click', function() {
@@ -51,4 +52,10 @@ expandBtn.addEventListener('click', function() {
         hiddenGallery.style.display = 'block'; // Mostra as imagens ocultas
         expandBtn.style.display = 'none'; // Oculta o botão da seta depois de expandir
     }
+});
+
+// Função para esconder a galeria e trazer o botão de seta de volta
+closeGalleryBtn.addEventListener('click', function() {
+    hiddenGallery.style.display = 'none'; // Oculta a galeria novamente
+    expandBtn.style.display = 'block'; // Mostra o botão da seta novamente
 });

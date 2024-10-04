@@ -204,6 +204,23 @@ nav ul li a:hover::after {
     margin-top: 20px;
 }
 
+/* Ícone para fechar a galeria */
+.close-gallery {
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.close-gallery img {
+    width: 40px; /* Tamanho da imagem de fechar */
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.close-gallery img:hover {
+    transform: scale(1.2); /* Aumenta levemente ao passar o mouse */
+}
+
 /* Estilo responsivo */
 @media (max-width: 768px) {
     .gallery-grid {
