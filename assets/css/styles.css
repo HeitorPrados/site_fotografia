@@ -200,8 +200,7 @@ nav ul li a:hover::after {
 
 /* Galeria oculta inicialmente */
 .hidden-gallery {
-    display: none; /* Oculta inicialmente */
-    margin-top: 20px;
+    display: none; /* Oculta inicialmente */;
 }
 
 /* Ícone para fechar a galeria */
