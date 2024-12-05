@@ -1,61 +1,145 @@
-// Seleciona os elementos necessários
-const modal = document.getElementById('modal');
-const modalImg = document.getElementById('modal-img');
-const closeModal = document.getElementById('close-modal');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const galleryImages = document.querySelectorAll('.gallery-img');
+document.addEventListener('DOMContentLoaded', () => {
+    const productGrid = document.getElementById('productGrid');
+    const addProductButton = document.getElementById('addProductButton');
+    const productModal = document.getElementById('productModal');
+    const productForm = document.getElementById('productForm');
+    const cancelButton = document.getElementById('cancelButton');
+    const modalTitle = document.getElementById('modalTitle');
+    const productName = document.getElementById('productName');
+    const productDescription = document.getElementById('productDescription');
+    const productCategory = document.getElementById('productCategory');
+    const productPrice = document.getElementById('productPrice');
+    const productImageUrl = document.getElementById('productImageUrl');
 
-let currentIndex;  // Variável para armazenar o índice da imagem atual
+    let editingProduct = null;
 
-// Função para abrir a modal com a imagem correspondente
-galleryImages.forEach((img, index) => {
-    img.addEventListener('click', function () {
-        modal.style.display = 'block';  // Exibe a modal
-        modalImg.src = this.src;        // Define a imagem clicada como conteúdo da modal
-        currentIndex = index;           // Salva o índice da imagem atual
+    function loadProductsFromStorage() {
+        const storedProducts = sessionStorage.getItem('products');
+        if (storedProducts) {
+            JSON.parse(storedProducts).forEach(product => addProductToGrid(product));
+        }
+    }
+
+    function saveProductsToStorage() {
+        const products = [];
+        productGrid.querySelectorAll('.product-item').forEach(item => {
+            const productData = {
+                image: item.querySelector('img').src,
+                name: item.querySelector('p:nth-child(2)').textContent,
+                description: item.querySelector('p:nth-child(3)').textContent,
+                category: item.querySelector('p:nth-child(4)').textContent.replace('Categoria: ', ''),
+                price: item.querySelector('p:nth-child(5)').textContent.replace('Preço: R$', ''),
+            };
+            products.push(productData);
+        });
+        sessionStorage.setItem('products', JSON.stringify(products));
+    }
+
+    function openModal(editing = false, productData = {}) {
+        productModal.classList.remove('hidden');
+        modalTitle.textContent = editing ? 'Editar Produto' : 'Adicionar Produto';
+        if (editing) {
+            productName.value = productData.name || '';
+            productDescription.value = productData.description || '';
+            productCategory.value = productData.category || '';
+            productPrice.value = productData.price || '';
+            productImageUrl.value = productData.image || '';
+            editingProduct = productData.element || null;
+        } else {
+            productForm.reset();
+            editingProduct = null;
+        }
+    }
+
+    function closeModal() {
+        productModal.classList.add('hidden');
+        productForm.reset();
+    }
+
+    function addProductToGrid(data) {
+        const productItem = document.createElement('div');
+        productItem.classList.add('product-item');
+
+        productItem.innerHTML = `
+            <img src="${data.image}" alt="${data.name}">
+            <p>${data.name}</p>
+            <p>${data.description}</p>
+            <p>Categoria: ${data.category}</p>
+            <p>Preço: R$${data.price}</p>
+            <div class="actions">
+                <button class="edit">✏️</button>
+                <button class="delete">🗑️</button>
+            </div>
+        `;
+
+        productGrid.appendChild(productItem);
+
+        productItem.querySelector('.delete').addEventListener('click', () => {
+            productGrid.removeChild(productItem);
+            saveProductsToStorage();
+        });
+
+        productItem.querySelector('.edit').addEventListener('click', () => {
+            const productData = {
+                name: data.name,
+                description: data.description,
+                category: data.category,
+                price: data.price,
+                image: data.image,
+                element: productItem,
+            };
+            openModal(true, productData);
+        });
+
+        saveProductsToStorage();
+    }
+
+    productForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const productData = {
+            name: productName.value,
+            description: productDescription.value,
+            category: productCategory.value,
+            price: productPrice.value,
+            image: productImageUrl.value || 'assets/img/placeholder.jpg',
+        };
+
+        if (editingProduct) {
+            editingProduct.querySelector('img').src = productData.image;
+            editingProduct.querySelector('p:nth-child(2)').textContent = productData.name;
+            editingProduct.querySelector('p:nth-child(3)').textContent = productData.description;
+            editingProduct.querySelector('p:nth-child(4)').textContent = `Categoria: ${productData.category}`;
+            editingProduct.querySelector('p:nth-child(5)').textContent = `Preço: R$${productData.price}`;
+        } else {
+            addProductToGrid(productData);
+        }
+
+        closeModal();
+        saveProductsToStorage();
     });
+
+    cancelButton.addEventListener('click', closeModal);
+    addProductButton.addEventListener('click', () => openModal());
+
+    // Carregar os produtos salvos ao iniciar a página
+    loadProductsFromStorage();
 });
 
-// Função para fechar a modal ao clicar no "X"
-closeModal.addEventListener('click', function () {
-    modal.style.display = 'none';  // Oculta a modal
-});
+//header
+window.addEventListener("scroll", function(event) {
+    var header = document.querySelector("#header");
+    var top = this.scrollY;
 
-// Função para fechar a modal ao clicar fora da imagem
-window.addEventListener('click', function (e) {
-    if (e.target == modal) {
-        modal.style.display = 'none';  // Oculta a modal
+    if (top >= 544) {
+        header.className = "header1";
+    } else {
+        header.className = "header2";
     }
-});
 
-// Função para mostrar a próxima imagem
-nextBtn.addEventListener('click', function () {
-    currentIndex = (currentIndex + 1) % galleryImages.length; // Vai para a próxima imagem
-    modalImg.src = galleryImages[currentIndex].src;           // Atualiza a imagem na modal
-});
+    console.log(top);
+    
+}, false);
 
-// Função para mostrar a imagem anterior
-prevBtn.addEventListener('click', function () {
-    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length; // Vai para a imagem anterior
-    modalImg.src = galleryImages[currentIndex].src;                                 // Atualiza a imagem na modal
-});
-
-// Seleciona o botão da seta e a galeria oculta
-const expandBtn = document.getElementById('expand-btn');
-const hiddenGallery = document.getElementById('hidden-gallery');
-const closeGalleryBtn = document.getElementById('close-gallery');
-
-// Função para mostrar a galeria oculta quando o botão da seta for clicado
-expandBtn.addEventListener('click', function() {
-    if (hiddenGallery.style.display === 'none' || hiddenGallery.style.display === '') {
-        hiddenGallery.style.display = 'block'; // Mostra as imagens ocultas
-        expandBtn.style.display = 'none'; // Oculta o botão da seta depois de expandir
-    }
-});
-
-// Função para esconder a galeria e trazer o botão de seta de volta
-closeGalleryBtn.addEventListener('click', function() {
-    hiddenGallery.style.display = 'none'; // Oculta a galeria novamente
-    expandBtn.style.display = 'block'; // Mostra o botão da seta novamente
-});
+//footer
+document.getElementById('currentYear').textContent = new Date().getFullYear();
