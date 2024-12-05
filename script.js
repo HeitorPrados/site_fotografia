@@ -96,15 +96,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     productForm.addEventListener('submit', (event) => {
         event.preventDefault();
-
+    
+        const priceValue = parseFloat(productPrice.value).toFixed(2); // Garantir duas casas decimais
+        if (isNaN(priceValue)) {
+            alert('Por favor, insira um preço válido com até duas casas decimais, ex: 29.99');
+            return;
+        }
+    
         const productData = {
             name: productName.value,
             description: productDescription.value,
             category: productCategory.value,
-            price: productPrice.value,
+            price: priceValue,
             image: productImageUrl.value || 'assets/img/placeholder.jpg',
         };
-
+    
         if (editingProduct) {
             editingProduct.querySelector('img').src = productData.image;
             editingProduct.querySelector('p:nth-child(2)').textContent = productData.name;
@@ -114,10 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             addProductToGrid(productData);
         }
-
+    
         closeModal();
         saveProductsToStorage();
-    });
+    });    
 
     cancelButton.addEventListener('click', closeModal);
     addProductButton.addEventListener('click', () => openModal());
@@ -143,3 +149,26 @@ window.addEventListener("scroll", function(event) {
 
 //footer
 document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const productGrid = document.getElementById('productGrid');
+    const searchInput = document.querySelector('.input-importante');
+
+    // Função para filtrar os produtos
+    function filterProducts() {
+        const searchText = searchInput.value.toLowerCase();
+        const productItems = productGrid.querySelectorAll('.product-item');
+
+        productItems.forEach(item => {
+            const productName = item.querySelector('p:nth-child(2)').textContent.toLowerCase(); // Nome do produto
+            if (productName.includes(searchText)) {
+                item.style.display = ''; // Mostrar item
+            } else {
+                item.style.display = 'none'; // Esconder item
+            }
+        });
+    }
+
+    // Adicionar evento ao input de busca
+    searchInput.addEventListener('input', filterProducts);
+});
